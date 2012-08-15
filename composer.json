@@ -1,0 +1,17 @@
+{
+    "name": "wp/base",
+    "type": "library",
+    "license": "MIT",
+    "description": "Base classes & interfaces for WebProducer framework (https://github.com/webproducer/app)",
+    "keywords": ["mvc", "framework"],
+    "homepage": "https://github.com/webproducer/base",
+    "authors": [
+        {
+            "name": "Alexander Safronov",
+            "email": "safron@webproducers.ru"
+        }
+    ], 
+    "autoload": {
+        "psr-0": { "WP": "src/" }
+    }
+}
