@@ -1,8 +1,8 @@
 <?php
 namespace WP\Base;
 
-class FileHandler extends \SplFileObject {
-
+class FileHandler extends \SplFileObject
+{
     protected $_baseFile = null;
 
     public function __construct($fileName, $mode = 'r') {
@@ -17,8 +17,4 @@ class FileHandler extends \SplFileObject {
     public function puts($str, $length = null) {
         return is_null($length) ? $this->fwrite($str) : $this->fwrite($str, $length);
     }
-
-
 }
-
-?>

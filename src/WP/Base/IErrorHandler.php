@@ -1,8 +1,8 @@
 <?php
 namespace WP\Base;
 
-interface IErrorHandler {
-
+interface IErrorHandler
+{
     /**
      * Обработать ошибку PHP.
      */
@@ -12,8 +12,4 @@ interface IErrorHandler {
      * Обработать исключение
      */
     public function handleException(\Exception $exception);
-
-
 }
-
-?>
