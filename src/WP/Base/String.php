@@ -1,8 +1,8 @@
 <?php
 namespace WP\Base;
 
-class String implements \Iterator, \Countable, \ArrayAccess {
-
+class String implements \Iterator, \Countable, \ArrayAccess
+{
     const SEARCH_AUTO = 0;
     const SEARCH_REGULAR = 1;
     const SEARCH_SUBSTR = 2;
@@ -25,7 +25,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Constructor. Creates String object from default PHP string.
      *
-     * @param str $string
+     * @param string $string
      * @return String
      */
     public static function fromPhpString($string = '') {
@@ -35,8 +35,9 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Constructor. Creates String from file content.
      *
-     * @param str $filename
+     * @param string $filename
      * @return String
+     * @throws \InvalidArgumentException
      */
     public static function fromFile($filename) {
         if (is_file($filename) && is_readable($filename)) {
@@ -48,8 +49,10 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Constructor. Creates String by imploding passed array.
      *
-     * @param array $filename
+     * @param array $array
+     * @param string $glue
      * @return String
+     * @throws \InvalidArgumentException
      */
     public static function fromArray($array, $glue = '') {
         if (is_array($array)) {
@@ -81,9 +84,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     }
 
     public function __get($name) {
-        if ($name == 'length') {
-            return $this->count();
-        }
+        return ($name == 'length') ? $this->count() : null;
     }
 
     public function __set($name, $value) {
@@ -95,10 +96,18 @@ class String implements \Iterator, \Countable, \ArrayAccess {
 
     /////////////////// String functions ///////////////////////////////////////
 
+    /**
+     * @param string $str
+     * @return String
+     */
     public function append($str) {
         return new self($this->s . $str);
     }
 
+    /**
+     * @param string $str
+     * @return $this
+     */
     public function appendMe($str) {
         $this->s .= $str;
         return $this;
@@ -287,7 +296,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Self-modifying version of $this->html().
      *
-     * @param type $quoteStyle
+     * @param int $quoteStyle
      * @return String
      */
     public function htmlMe($quoteStyle = ENT_COMPAT) {
@@ -298,7 +307,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Strip whitespace (or other characters) from the beginning and end of a string.
      *
-     * @param str $charlist Stripped characters
+     * @param string $charlist Stripped characters
      * @return String
      */
     public function trim($charlist = null) {
@@ -308,7 +317,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Self-modifying version of $this->trim().
      *
-     * @param str $charlist Stripped characters
+     * @param string $charlist Stripped characters
      * @return String
      */
     public function trimMe($charlist = null) {
@@ -319,7 +328,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Strip whitespace (or other characters) from the end of a string.
      *
-     * @param str $charlist Stripped characters
+     * @param string $charlist Stripped characters
      * @return String
      */
     public function trimRight($charlist = null) {
@@ -329,7 +338,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Self-modifying version of $this->trimRight().
      *
-     * @param str $charlist Stripped characters
+     * @param string $charlist Stripped characters
      * @return String
      */
     public function trimRightMe($charlist = null) {
@@ -340,7 +349,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Strip whitespace (or other characters) from the beginning of a string.
      *
-     * @param str $charlist Stripped characters
+     * @param string $charlist Stripped characters
      * @return String
      */
     public function trimLeft($charlist = null) {
@@ -350,7 +359,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Self-modifying version of $this->trimLeft().
      *
-     * @param str $charlist Stripped characters
+     * @param string $charlist Stripped characters
      * @return String
      */
     public function trimLeftMe($charlist = null) {
@@ -361,7 +370,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Split a string by delimeter
      *
-     * @param str $delimeter
+     * @param string $delimeter
      * @return array
      */
     public function explode($delimeter = '') {
@@ -371,7 +380,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * One-way string hashing.
      *
-     * @param str $salt
+     * @param string $salt
      * @return String
      */
     public function crypt($salt = null) {
@@ -381,7 +390,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Self-modifying version of $this->crypt().
      *
-     * @param str $salt
+     * @param string $salt
      * @return String
      */
     public function cryptMe($salt = null) {
@@ -449,8 +458,8 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Generate a hash value (message digest)
      *
+     * @param string $algorithm Name of selected hashing algorithm (i.e. "md5" (default), "sha256", "haval160,4", etc..)
      * @param bool $raw_output When set to TRUE, outputs raw binary data. FALSE outputs lowercase hexits.
-     * @param str $algorithm Name of selected hashing algorithm (i.e. "md5" (default), "sha256", "haval160,4", etc..)
      * @return String
      */
     public function hashify($algorithm = 'md5', $raw_output = false) {
@@ -460,8 +469,8 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Self-modifying version of $this->hashify().
      *
+     * @param string $algorithm Name of selected hashing algorithm (i.e. "md5" (default), "sha256", "haval160,4", etc..)
      * @param bool $raw_output When set to TRUE, outputs raw binary data. FALSE outputs lowercase hexits.
-     * @param str $algorithm Name of selected hashing algorithm (i.e. "md5" (default), "sha256", "haval160,4", etc..)
      * @return String
      */
     public function hashifyMe($algorithm = 'md5', $raw_output = false) {
@@ -472,7 +481,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Perform a regular expression match and return matches count.
      *
-     * @param str $pattern PCRE pattern
+     * @param string $pattern PCRE pattern
      * @return int
      */
     public function match($pattern) {
@@ -483,7 +492,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
      * Perform a regular expression match and return matches array.
      * Perform a global regular expression match.
      *
-     * @param str $pattern PCRE pattern
+     * @param string $pattern PCRE pattern
      * @return array
      */
     public function getMatches($pattern) {
@@ -496,7 +505,7 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Perform a global regular expression match and return matches array.
      *
-     * @param str $pattern PCRE pattern
+     * @param string $pattern PCRE pattern
      * @return array
      */
     public function getAllMatches($pattern) {
@@ -510,8 +519,8 @@ class String implements \Iterator, \Countable, \ArrayAccess {
      * Replace all occurrences of the search string or PCRE with the replacement string,
      * or calling callback for each match (only if $pattern is PCRE).
      *
-     * @param str $pattern PCRE string or simply substring to search
-     * @param str|Closure $replacer Replacement string or callback (only if $pattern is PCRE)
+     * @param string $pattern PCRE string or simply substring to search
+     * @param string|\Closure $replacer Replacement string or callback (only if $pattern is PCRE)
      * @param int $mode String::SEARCH_AUTO (default) | String::SEARCH_REGULAR | String::SEARCH_SUBSTR
      * @return String
      */
@@ -587,28 +596,22 @@ class String implements \Iterator, \Countable, \ArrayAccess {
 
     /**
      * Moves internal pointer on first char and returns it.
-     *
-     * @return string
      */
     public function rewind() {
         $this->currentIndex = 0;
-        return $this[0];
     }
 
     /**
      * Moves internal pointer on next char and returns it.
-     *
-     * @return str
      */
     public function next() {
         $this->currentIndex++;
-        return $this->current();
     }
 
     /**
      * Returns true, if current key is valid.
      *
-     * @return
+     * @return bool
      */
     public function valid() {
         return isset($this[$this->currentIndex]);
@@ -626,17 +629,11 @@ class String implements \Iterator, \Countable, \ArrayAccess {
     /**
      * Returns current char
      *
-     * @return string
+     * @return string|null
      */
     public function current() {
-        if ($this->valid()) {
-            return $this[$this->currentIndex];
-        }
+        return $this->valid() ? $this[$this->currentIndex] : null;
     }
 
     ////////////////////////////////////////////////////////////////////////////
-
-
 }
-
-?>

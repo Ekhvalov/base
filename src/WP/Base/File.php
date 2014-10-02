@@ -1,11 +1,17 @@
 <?php
 namespace WP\Base;
 
-class File extends \SplFileInfo {
-
+class File extends \SplFileInfo
+{
     const DS = DIRECTORY_SEPARATOR;
 
-    protected static $_fileHandlerMethods = array('rewind', 'eof', 'valid', 'fgets', 'gets', 'puts', 'fgetcsv', 'setcsvcontrol', 'getcsvcontrol', 'flock', 'fflush', 'ftell', 'fseek', 'fgetc', 'fpassthru', 'fgetss', 'fscanf', 'fwrite', 'fstat', 'ftruncate', 'current', 'key', 'next', 'setflags', 'getflags', 'setmaxlinelen', 'getmaxlinelen', 'seek', 'getcurrentline');
+    protected static $_fileHandlerMethods = array(
+        'rewind', 'eof', 'valid', 'fgets', 'gets', 'puts', 'fgetcsv',
+        'setcsvcontrol', 'getcsvcontrol', 'flock', 'fflush', 'ftell',
+        'fseek', 'fgetc', 'fpassthru', 'fgetss', 'fscanf', 'fwrite',
+        'fstat', 'ftruncate', 'current', 'key', 'next', 'setflags',
+        'getflags', 'setmaxlinelen', 'getmaxlinelen', 'seek', 'getcurrentline'
+    );
 
     protected $_exists = false;
     protected $_fileName = '';
@@ -31,9 +37,10 @@ class File extends \SplFileInfo {
                 case '1':
                     throw new IOException("Uploaded file exceeds `upload_max_filesize` limit", 217);
                 case '2':
-                    throw new IOException("Uploaded file exceeds `MAX_FILE_SIZE` directive that was specified in the HTML form", 218);;
+                    $msg = "Uploaded file exceeds `MAX_FILE_SIZE` directive that was specified in the HTML form";
+                    throw new IOException($msg, 218);
                 default:
-                    throw new IOException("Error while uploading", 219);;
+                    throw new IOException("Error while uploading", 219);
             }
         }
         $moveDir = rtrim($toDir, '/\\');
@@ -47,9 +54,7 @@ class File extends \SplFileInfo {
         $fullPath = $moveDir . self::DS . $name;
         if (@move_uploaded_file($_FILES[$fieldName]['tmp_name'], $fullPath)) {
             return new static($fullPath);
-        }
-        else
-        {
+        } else {
             throw new IOException("Error moving uploaded file", 220);
         }
     }
@@ -93,7 +98,7 @@ class File extends \SplFileInfo {
         ($mode == 'r') && $this->_checkExists();
         try {
             $this->_handler = new FileHandler($this->getPathname(), $mode);
-        } catch(\RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             throw new IOException($e->getMessage(), $e->getCode());
         }
         return $this;
@@ -205,8 +210,4 @@ class File extends \SplFileInfo {
     protected static function _getExt($filename) {
         return pathinfo($filename, PATHINFO_EXTENSION);
     }
-
 }
-
-
-?>
