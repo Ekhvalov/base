@@ -3,7 +3,6 @@ namespace WP\Base;
 
 class File extends \SplFileInfo
 {
-
     const DS = DIRECTORY_SEPARATOR;
 
     protected static $_fileHandlerMethods = array(
@@ -47,7 +46,7 @@ class File extends \SplFileInfo
         $moveDir = rtrim($toDir, '/\\');
         $name = $newName ?: $_FILES[$fieldName]['name'];
         if (!file_exists($moveDir) || (!is_dir($moveDir))) {
-            throw new \InvalidArgumentException("Directory {$moveDir} are not exists", 301);
+            throw new IOException("Directory {$moveDir} are not exists", 301);
         }
         if (!is_writable($moveDir)) {
             throw new IOException("Directory {$moveDir} are not writable", 302);
