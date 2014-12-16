@@ -1,6 +1,11 @@
 <?php
 namespace WP\Base;
 
+/**
+ * Class String
+ * @package WP\Base
+ * @property int $length
+ */
 class String implements \Iterator, \Countable, \ArrayAccess
 {
     const SEARCH_AUTO = 0;
@@ -26,7 +31,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Constructor. Creates String object from default PHP string.
      *
      * @param string $string
-     * @return String
+     * @return \WP\Base\String
      */
     public static function fromPhpString($string = '') {
         return new self($string);
@@ -36,7 +41,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Constructor. Creates String from file content.
      *
      * @param string $filename
-     * @return String
+     * @return \WP\Base\String
      * @throws \InvalidArgumentException
      */
     public static function fromFile($filename) {
@@ -51,7 +56,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      *
      * @param array $array
      * @param string $glue
-     * @return String
+     * @return \WP\Base\String
      * @throws \InvalidArgumentException
      */
     public static function fromArray($array, $glue = '') {
@@ -98,7 +103,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
 
     /**
      * @param string $str
-     * @return String
+     * @return \WP\Base\String
      */
     public function append($str) {
         return new self($this->s . $str);
@@ -118,7 +123,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      *
      * @param int $from
      * @param int $count
-     * @return String
+     * @return \WP\Base\String
      */
     public function substring($from = 0, $count = null) {
         $phpStr = is_null($count) ? mb_substr($this->s, $from) : mb_substr($this->s, $from, $count);
@@ -130,7 +135,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      *
      * @param int $from
      * @param int $count
-     * @return String
+     * @return \WP\Base\String
      */
     public function substringMe($from = 0, $count = null) {
         $this->s = is_null($count) ? mb_substr($this->s, $from) : mb_substr($this->s, $from, $count);
@@ -142,7 +147,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      *
      * @param int $from
      * @param int $count
-     * @return String
+     * @return \WP\Base\String
      */
     public function substr($from = 0, $count = null) {
         return $this->substring($from, $count);
@@ -151,7 +156,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Returns uppercased string.
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function upperCase() {
         return new self(mb_strtoupper($this->s));
@@ -160,7 +165,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Self-modifying version of $this->upperCase().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function upperCaseMe() {
         $this->s = mb_strtoupper($this->s);
@@ -170,7 +175,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Alias for $this->upperCase().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function upper() {
         return $this->upperCase();
@@ -179,7 +184,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Alias for $this->upperCaseMe().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function upperMe() {
         return $this->upperCaseMe();
@@ -188,7 +193,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Make a string's first character uppercase
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function upperFirst() {
         $ret = new self($this->s);
@@ -199,7 +204,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Self-modifying version of $this->upperFirst().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function upperFirstMe() {
         $this[0] = mb_strtoupper($this[0]);
@@ -209,7 +214,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Uppercase the first character of each word in a string.
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function upperWords() {
         return new self(mb_convert_case($this->s, MB_CASE_TITLE));
@@ -218,7 +223,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Self-modifying version of $this->upperWords().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function upperWordsMe() {
         $this->s = mb_convert_case($this->s, MB_CASE_TITLE);
@@ -228,7 +233,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Make a string lowercase.
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function lowerCase() {
         return new self(mb_strtolower($this->s));
@@ -237,7 +242,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Self-modifying version of $this->lowerCase().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function lowerCaseMe() {
         $this->s = mb_strtolower($this->s);
@@ -247,7 +252,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Alias for $this->lowerCase().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function lower() {
         return $this->lowerCase();
@@ -256,7 +261,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Self-modifying version of $this->lower().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function lowerMe() {
         return $this->lowerCaseMe();
@@ -265,7 +270,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Make a string's first character lowercase
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function lowerFirst() {
         $ret = new self($this->s);
@@ -276,7 +281,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Self-modifying version of $this->lowerFirst().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function lowerFirstMe() {
         $this[0] = mb_strtolower($this[0]);
@@ -287,7 +292,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Convert special characters to HTML entities.
      *
      * @param int $quoteStyle ENT_COMPAT | ENT_IGNORE | ENT_NOQUOTES | ENT_QUOTES
-     * @return String
+     * @return \WP\Base\String
      */
     public function html($quoteStyle = ENT_COMPAT) {
         return new self(htmlspecialchars($this->s, $quoteStyle));
@@ -297,7 +302,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Self-modifying version of $this->html().
      *
      * @param int $quoteStyle
-     * @return String
+     * @return \WP\Base\String
      */
     public function htmlMe($quoteStyle = ENT_COMPAT) {
         $this->s = htmlspecialchars($this->s, $quoteStyle);
@@ -308,7 +313,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Strip whitespace (or other characters) from the beginning and end of a string.
      *
      * @param string $charlist Stripped characters
-     * @return String
+     * @return \WP\Base\String
      */
     public function trim($charlist = null) {
         return new self(trim($this->s, $charlist));
@@ -318,7 +323,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Self-modifying version of $this->trim().
      *
      * @param string $charlist Stripped characters
-     * @return String
+     * @return \WP\Base\String
      */
     public function trimMe($charlist = null) {
         $this->s = trim($this->s, $charlist);
@@ -329,7 +334,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Strip whitespace (or other characters) from the end of a string.
      *
      * @param string $charlist Stripped characters
-     * @return String
+     * @return \WP\Base\String
      */
     public function trimRight($charlist = null) {
         return new self(rtrim($this->s, $charlist));
@@ -339,7 +344,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Self-modifying version of $this->trimRight().
      *
      * @param string $charlist Stripped characters
-     * @return String
+     * @return \WP\Base\String
      */
     public function trimRightMe($charlist = null) {
         $this->s = rtrim($this->s, $charlist);
@@ -350,7 +355,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Strip whitespace (or other characters) from the beginning of a string.
      *
      * @param string $charlist Stripped characters
-     * @return String
+     * @return \WP\Base\String
      */
     public function trimLeft($charlist = null) {
         return new self(ltrim($this->s, $charlist));
@@ -360,7 +365,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Self-modifying version of $this->trimLeft().
      *
      * @param string $charlist Stripped characters
-     * @return String
+     * @return \WP\Base\String
      */
     public function trimLeftMe($charlist = null) {
         $this->s = ltrim($this->s, $charlist);
@@ -381,7 +386,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * One-way string hashing.
      *
      * @param string $salt
-     * @return String
+     * @return \WP\Base\String
      */
     public function crypt($salt = null) {
         return new self(crypt($this->s, $salt));
@@ -391,7 +396,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * Self-modifying version of $this->crypt().
      *
      * @param string $salt
-     * @return String
+     * @return \WP\Base\String
      */
     public function cryptMe($salt = null) {
         $this->s = crypt($this->s, $salt);
@@ -401,7 +406,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Calculates the crc32 polynomial of a string.
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function crc32() {
         return new self(crc32($this->s));
@@ -410,7 +415,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Self-modifying version of $this->crc32().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function crc32Me() {
         $this->s = crc32($this->s);
@@ -420,7 +425,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Calculate the md5 hash of a string.
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function md5() {
         return new self(md5($this->s));
@@ -429,7 +434,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Self-modifying version of $this->md5().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function md5Me() {
         $this->s = md5($this->s);
@@ -439,7 +444,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Calculate the sha1 hash of a string.
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function sha1() {
         return new self(sha1($this->s));
@@ -448,7 +453,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Self-modifying version of $this->sha1().
      *
-     * @return String
+     * @return \WP\Base\String
      */
     public function sha1Me() {
         $this->s = sha1($this->s);
@@ -460,7 +465,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      *
      * @param string $algorithm Name of selected hashing algorithm (i.e. "md5" (default), "sha256", "haval160,4", etc..)
      * @param bool $raw_output When set to TRUE, outputs raw binary data. FALSE outputs lowercase hexits.
-     * @return String
+     * @return \WP\Base\String
      */
     public function hashify($algorithm = 'md5', $raw_output = false) {
         return new self(hash($algorithm, $this->s, $raw_output));
@@ -471,7 +476,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      *
      * @param string $algorithm Name of selected hashing algorithm (i.e. "md5" (default), "sha256", "haval160,4", etc..)
      * @param bool $raw_output When set to TRUE, outputs raw binary data. FALSE outputs lowercase hexits.
-     * @return String
+     * @return \WP\Base\String
      */
     public function hashifyMe($algorithm = 'md5', $raw_output = false) {
         $this->s = hash($algorithm, $this->s, $raw_output);
@@ -522,7 +527,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
      * @param string $pattern PCRE string or simply substring to search
      * @param string|\Closure $replacer Replacement string or callback (only if $pattern is PCRE)
      * @param int $mode String::SEARCH_AUTO (default) | String::SEARCH_REGULAR | String::SEARCH_SUBSTR
-     * @return String
+     * @return \WP\Base\String
      */
     public function replace($pattern, $replacer, $mode = self::SEARCH_AUTO) {
         if (empty($pattern)) {
@@ -629,7 +634,7 @@ class String implements \Iterator, \Countable, \ArrayAccess
     /**
      * Returns current char
      *
-     * @return string|null
+     * @return \WP\Base\String|null
      */
     public function current() {
         return $this->valid() ? $this[$this->currentIndex] : null;
