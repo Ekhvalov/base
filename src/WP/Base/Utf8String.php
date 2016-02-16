@@ -62,13 +62,60 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
         throw new \InvalidArgumentException("Argument is not array", 780);
     }
 
+    ////////////// Static versions of str funcs
 
-    /////////////////////// Magic methods, setters & getters
+    /**
+     * @param string $phpStr
+     * @return int
+     */
+    public static function strlen($phpStr) {
+        return mb_strlen($phpStr, self::ENC);
+    }
+
+    /**
+     * @param string $phpStr
+     * @param int $from
+     * @param null|int $count
+     * @return string
+     */
+    public static function strSubstr($phpStr, $from = 0, $count = null) {
+        return mb_substr($phpStr, $from, $count, self::ENC);
+    }
+
+    /**
+     * @param string $phpStr
+     * @return string
+     */
+    public static function strToUpper($phpStr) {
+        return mb_strtoupper($phpStr, self::ENC);
+    }
+
+    /**
+     * @param string $phpStr
+     * @return string
+     */
+    public static function strToUpperWords($phpStr) {
+        return mb_convert_case($phpStr, MB_CASE_TITLE, self::ENC);
+    }
+
+    /**
+     * @param string $phpStr
+     * @return string
+     */
+    public static function strToLower($phpStr) {
+        return mb_strtolower($phpStr, self::ENC);
+    }
+
+
+    ////////////// Magic methods, setters & getters
 
     public function __toString() {
         return $this->getPhpString();
     }
 
+    /**
+     * @return string
+     */
     public function getPhpString() {
         return $this->s;
     }
@@ -84,7 +131,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
         }
     }
 
-    /////////////////// String functions ///////////////////////////////////////
+    ////////////// String functions
 
     /**
      * @param string $str
@@ -111,7 +158,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return self
      */
     public function substring($from = 0, $count = null) {
-        return new self(mb_substr($this->s, $from, $count, self::ENC));
+        return new self(self::strSubstr($this->s, $from, $count));
     }
 
     /**
@@ -122,7 +169,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return self
      */
     public function substringMe($from = 0, $count = null) {
-        $this->s = mb_substr($this->s, $from, $count, self::ENC);
+        $this->s = self::strSubstr($this->s, $from, $count);
         return $this;
     }
 
@@ -143,7 +190,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return self
      */
     public function upperCase() {
-        return new self(mb_strtoupper($this->s, self::ENC));
+        return new self(self::strToUpper($this->s));
     }
 
     /**
@@ -152,7 +199,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return self
      */
     public function upperCaseMe() {
-        $this->s = mb_strtoupper($this->s, self::ENC);
+        $this->s = self::strToUpper($this->s);
         return $this;
     }
 
@@ -181,7 +228,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      */
     public function upperFirst() {
         $ret = new self($this->s);
-        $ret[0] = mb_strtoupper($ret[0], self::ENC);
+        $ret[0] = self::strToUpper($ret[0]);
         return $ret;
     }
 
@@ -191,7 +238,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return self
      */
     public function upperFirstMe() {
-        $this[0] = mb_strtoupper($this[0], self::ENC);
+        $this[0] = self::strToUpper($this[0]);
         return $this;
     }
 
@@ -201,7 +248,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return self
      */
     public function upperWords() {
-        return new self(mb_convert_case($this->s, MB_CASE_TITLE, self::ENC));
+        return new self(self::strToUpperWords($this->s));
     }
 
     /**
@@ -210,7 +257,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return self
      */
     public function upperWordsMe() {
-        $this->s = mb_convert_case($this->s, MB_CASE_TITLE, self::ENC);
+        $this->s = self::strToUpperWords($this->s);
         return $this;
     }
 
@@ -220,7 +267,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return self
      */
     public function lowerCase() {
-        return new self(mb_strtolower($this->s, self::ENC));
+        return new self(self::strToLower($this->s));
     }
 
     /**
@@ -229,7 +276,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return self
      */
     public function lowerCaseMe() {
-        $this->s = mb_strtolower($this->s, self::ENC);
+        $this->s = self::strToLower($this->s);
         return $this;
     }
 
@@ -258,7 +305,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      */
     public function lowerFirst() {
         $ret = new self($this->s);
-        $ret[0] = mb_strtolower($ret[0], self::ENC);
+        $ret[0] = self::strToLower($ret[0]);
         return $ret;
     }
 
@@ -268,7 +315,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return self
      */
     public function lowerFirstMe() {
-        $this[0] = mb_strtolower($this[0], self::ENC);
+        $this[0] = self::strToLower($this[0]);
         return $this;
     }
 
@@ -541,7 +588,7 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
      * @return int
      */
     public function count() {
-        return mb_strlen($this->s, self::ENC);
+        return self::strlen($this->s);
     }
 
     ////////////////////////////////////////////////////////////////////////////
