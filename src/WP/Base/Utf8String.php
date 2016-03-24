@@ -6,7 +6,7 @@ namespace WP\Base;
  * @package WP\Base
  * @property-read int $length
  */
-class Utf8String implements \Iterator, \Countable, \ArrayAccess
+class Utf8String implements \Iterator, \Countable, \ArrayAccess, \JsonSerializable
 {
     const ENC = 'UTF-8';
 
@@ -669,4 +669,12 @@ class Utf8String implements \Iterator, \Countable, \ArrayAccess
         return $this->valid() ? $this[$this->currentIndex] : null;
     }
 
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return string data which can be serialized by <b>json_encode</b>,
+     */
+    public function jsonSerialize() {
+        return $this->s;
+    }
 }
